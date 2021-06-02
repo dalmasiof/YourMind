@@ -13,25 +13,33 @@ public class Livros {
     private String responsavel;
     private Date dataEmprestimo;
     private Date dataDevolucao;
+    private Integer id;
     
-    
+    private static int codigo = 1;
     private static List<Livros> livros = new ArrayList<Livros>();
     
     static {
-        Livros livro1 = new Livros("Livro 1", "Autor 1");
-        Livros livro2 = new Livros("Livro 2", "Autor 2");
-        Livros.adiciona(livro1);
-        Livros.adiciona(livro2);
+        Livros.adiciona(new Livros("A Revolução dos Bichos", "George Orwell"));
+        Livros.adiciona(new Livros("1984", "George Orwell"));
+        Livros.adiciona(new Livros("Jogos Vorazes", "Suzanne Collins"));
+        Livros.adiciona(new Livros("Em Chamas", "Suzanne Collins"));
+        Livros.adiciona(new Livros("A Esperança", "Suzanne Collins"));
+        Livros.adiciona(new Livros("O Pequeno Príncipe", "Antoine De Saint-exupéry"));
+        Livros.adiciona(new Livros("O Mágico de Oz", "L. Frank Baum"));
+        
     }
     
     
     // Construtores
+
     public Livros() {
     }
     
-    public Livros(String titulo, String autor) {
+    public Livros(String titulo , String autor) {
         this.titulo = titulo;
         this.autor = autor;
+        this.id = Livros.codigo;
+        Livros.codigo++;
     }
 
     public Livros(String titulo, String autor, String status, String responsavel, Date dataEmprestimo, Date dataDevolucao) {
@@ -41,6 +49,8 @@ public class Livros {
         this.responsavel = responsavel;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
+        this.id = Livros.codigo;
+        Livros.codigo++;
     }
     
     // Métodos
@@ -66,7 +76,35 @@ public class Livros {
         livro.setDataDevolucao(null);
         livro.setDataEmprestimo(null);
         Livros.livros.add(livro);
+    }
     
+    public static void excluirLivro(Integer idExclusao) {
+
+        for (int i = 0; i < livros.size(); i++) {
+
+            Livros get = livros.get(i);
+
+            if (get.id == idExclusao){
+                livros.remove(i);
+            }
+        }
+   }
+     
+    public static void reservarLivro(Integer idReserva,Date dataEmprestimoReserva,Date dataDevolucaoReserva,String resp) {
+           
+        for (int i = 0; i < livros.size(); i++) {
+             
+            Livros get = livros.get(i);
+             
+            if (get.id == idReserva){
+                 
+                get.dataDevolucao =  dataDevolucaoReserva;
+                get.dataEmprestimo = dataEmprestimoReserva;
+                get.responsavel = resp;
+
+                livros.set(i, get);
+            }
+        }
     }
     
     public static List<Livros> getLivros() {
@@ -121,6 +159,16 @@ public class Livros {
     public void setDataDevolucao(Date dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
+    
+    public void SetId(Integer novoId) {
+         this.id = novoId;
+    }
+    
+    public Integer getId() {
+        return id;
+    }
+    
+    
     
     
 }
